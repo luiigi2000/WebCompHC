@@ -2,15 +2,19 @@
 
 <html lang="en">
     <head>
+        <link rel="stylesheet" href="style.css">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
     </head>
 
     <body>
-        <input type="color" id="colorPicker">
-        <button id = "submitbutton">Submit</button>
-        <button id = "eraser">Eraser</button>
+        <div id = "toolbar">
+            <input type="color" id="colorPicker">
+            <button id = "submitbutton">Submit</button>
+            <button id = "eraser">Eraser</button>
+            <button id = "clear">Clear</button>
+        </div>
         <canvas id = "canvas" width = 600 height = "300" style="border:1px solid black;"></canvas>
         <script>
             const canvas = document.getElementById("canvas");
@@ -38,7 +42,6 @@
                     ctx.clearRect(mouseX-5, mouseY-5, 10, 10);
                 }
             }
-
             canvas.addEventListener('mousemove', draw);
             canvas.addEventListener('mouseup', function(event){
                 drawing = false;
@@ -48,13 +51,22 @@
                 y = event.clientY - canvas.offsetTop;
                 drawing = true;
             });
-            document.getElementById("eraser").addEventListener('click', function(event){
-                if (state == "erase"){
+            canvas.addEventListener('mouseleave', function(event){
+                drawing = false;
+            });
+
+            document.addEventListener('click', function(event){
+                console.log(event.target.id);
+                if (event.target.id == "eraser"){
+                    if (state == "draw"){
+                        state = "erase";
+                    }else{
+                        state = "draw";
+                    }
+                }else if (event.target.id == "clear"){
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }else if (event.target.id == "submitbutton"){
                     state = "draw";
-                    document.getElementById("eraser").setAttribute("style", "background-color: white; color: black;");
-                }else if (state == "draw"){
-                    state = "erase";
-                    ocument.getElementById("eraser").setAttribute("style", "background-color: white; color: white;");
                 }
             });
 

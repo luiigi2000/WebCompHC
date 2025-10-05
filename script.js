@@ -7,6 +7,7 @@ var state = "draw";
 var stroke = [];
 var strokeLines = [];
 
+
 function draw(event){
     if (drawing && state == "draw"){
         var mouseX = event.clientX - canvas.offsetLeft;
@@ -56,11 +57,10 @@ document.addEventListener('click', function(event){
         state = "draw";
     }else if (event.target.id == "undo"){
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        console.log(strokeLines);
         strokeLines.pop();
         for (let i = 0; i < strokeLines.length; i++){
             for (let j = 0; j < strokeLines[i].length; j++){
+                ctx.strokeStyle = strokeLines[i][j][4];
                 ctx.beginPath();
                 ctx.moveTo(strokeLines[i][j][0], strokeLines[i][j][1]);
                 ctx.lineTo(strokeLines[i][j][2], strokeLines[i][j][3]);

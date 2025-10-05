@@ -4,7 +4,8 @@ var x = 0;
 var y = 0;
 var drawing = false;
 var state = "draw";
-var lines = [];
+var stroke = [];
+var strokeLines = [];
 
 function draw(event){
     if (drawing && state == "draw"){
@@ -13,7 +14,8 @@ function draw(event){
         ctx.beginPath();
         ctx.moveTo(x, y);
         ctx.lineTo(mouseX, mouseY);
-        lines.push([x, y, mouseX, mouseY, ctx.strokeStyle]);
+
+        stroke.push([x, y, mouseX, mouseY, ctx.strokeStyle]);
         x = mouseX;
         y = mouseY;
         ctx.lineWidth = 3;
@@ -28,6 +30,8 @@ function draw(event){
 canvas.addEventListener('mousemove', draw);
 canvas.addEventListener('mouseup', function(event){
     drawing = false;
+    strokeLines.push(stroke);
+    stroke = [];
 });
 canvas.addEventListener('mousedown', function(event){
     x = event.clientX - canvas.offsetLeft;
@@ -53,13 +57,15 @@ document.addEventListener('click', function(event){
     }else if (event.target.id == "undo"){
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        ctx.beginPath();
-        for (let i = 0; i <= lines.length - 10; i++){
-            ctx.moveTo(lines[i][0], lines[i][1]);
-            ctx.lineTo(lines[i][2], lines[i][3]);
-            lines.pop(i);
+        console.log(strokeLines);
+        strokeLines.pop();
+        for (let i = 0; i < strokeLines.length; i++){
+            for (let j = 0; j < strokeLines[i].length; j++){
+                ctx.beginPath();
+                ctx.moveTo(strokeLines[i][j][0], strokeLines[i][j][1]);
+                ctx.lineTo(strokeLines[i][j][2], strokeLines[i][j][3]);
+                ctx.stroke();
+            }
         }
-        ctx.stroke();
-        lines.LENGTH = 0;
     }
 });

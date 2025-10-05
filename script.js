@@ -4,6 +4,7 @@ var x = 0;
 var y = 0;
 var drawing = false;
 var state = "draw";
+var lines = [];
 
 function draw(event){
     if (drawing && state == "draw"){
@@ -12,6 +13,7 @@ function draw(event){
         ctx.beginPath();
         ctx.moveTo(x, y);
         ctx.lineTo(mouseX, mouseY);
+        lines.push([x, y, mouseX, mouseY, ctx.strokeStyle]);
         x = mouseX;
         y = mouseY;
         ctx.lineWidth = 3;
@@ -48,5 +50,16 @@ document.addEventListener('click', function(event){
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }else if (event.target.id == "submitbutton"){
         state = "draw";
+    }else if (event.target.id == "undo"){
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ctx.beginPath();
+        for (let i = 0; i <= lines.length - 10; i++){
+            ctx.moveTo(lines[i][0], lines[i][1]);
+            ctx.lineTo(lines[i][2], lines[i][3]);
+            lines.pop(i);
+        }
+        ctx.stroke();
+        lines.LENGTH = 0;
     }
 });

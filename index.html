@@ -77,7 +77,7 @@
                     ctx.moveTo(x, y);
                     ctx.lineTo(mouseX, mouseY);
 
-                    stroke.push([x, y, mouseX, mouseY, ctx.strokeStyle]);
+                    stroke.push([x, y, mouseX, mouseY, ctx.strokeStyle, ctx.lineWidth, ctx.globalAlpha]);
                     x = mouseX;
                     y = mouseY;
                     ctx.strokeStyle = document.getElementById("colorPicker").value;
@@ -122,6 +122,8 @@
                 for (let i = 0; i < strokeLines.length; i++){
                     for (let j = 0; j < strokeLines[i].length; j++){
                         ctx.strokeStyle = strokeLines[i][j][4];
+                        ctx.lineWidth = strokeLines[i][j][5];
+                        ctx.globalAlpha = strokeLines[i][j][6];
                         ctx.beginPath();
                         ctx.moveTo(strokeLines[i][j][0], strokeLines[i][j][1]);
                         ctx.lineTo(strokeLines[i][j][2], strokeLines[i][j][3]);

@@ -8,19 +8,9 @@
     <body>
         <button id = "switchpage">Switch Page</button>
         <script>
-            document.getElementById("switchpage").onclick = function () {
+            document.getElementById("switchpage").addEventListener('click', function(event){
                 location.href = "index.html";
-            };
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                if (key.startsWith("imgData_")) {
-                    const dataURL = localStorage.getItem(key);
-                    const img = new Image();
-                    img.src = dataURL;
-                    document.body.appendChild(img);
-                }
-            }
-            
+            }); 
         </script>
     </body>
 </html>

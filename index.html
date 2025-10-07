@@ -72,7 +72,6 @@
             var stroke = [];
             var strokeLines = [];
 
-
             function draw(event){
                 if (drawing && state == "draw"){
                     var mouseX = event.clientX - canvas.offsetLeft;
@@ -107,8 +106,7 @@
                 drawing = false;
             });
 
-
-
+            
             document.getElementById("eraser").addEventListener('click', function(event){
                 if (state == "draw"){
                     state = "erase";
